@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>Lab 5</title></head>
+<body>
+  <form id="myForm">
+    <input type="text" id="name" placeholder="Enter your name" required>
+    <button type="submit">Submit</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById('myForm').addEventListener('submit', function (e) {
+      e.preventDefault();  // stop page reload
+
+      const name = document.getElementById('name').value;
+
+      fetch('lab5_process.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('result').textContent = JSON.stringify(data);
+      })
+      .catch(err => {
+        document.getElementById('result').textContent = 'Error: ' + err;
+      });
+    });
+  </script>
+</body>
+</html>
